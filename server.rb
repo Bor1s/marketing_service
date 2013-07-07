@@ -209,6 +209,20 @@ class Server
           resp.finish
         }
       end
+
+      map "/restore_test_data" do
+        run lambda { |env|
+          req = Rack::Request.new env
+          resp = Rack::Response.new
+          resp['Content-Type'] = 'application/json'
+          if req.params["test"]
+            ENV["MONGOID_ENV"] = "test"
+            load File.expand_path("../seeds.rb", __FILE__)
+          end
+          resp.write ""
+          resp.finish
+        }
+      end
     end
 
   end
