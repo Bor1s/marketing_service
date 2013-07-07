@@ -135,7 +135,7 @@ class Server
           resp['Content-Type'] = 'application/json'
 
           company = Company.where(id: req.params['company_id']).first
-          answer = {success: true, opt_ins: company.channels.map(&:opt_in)}.to_json
+          answer = {success: true, opt_ins: company.channels.map(&:opt_in).compact}.to_json
           resp.write answer
           resp.finish
         }
